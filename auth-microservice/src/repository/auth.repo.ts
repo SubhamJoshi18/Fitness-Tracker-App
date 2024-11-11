@@ -16,7 +16,7 @@ class AuthRepo {
         age: data.age,
         username: data.username,
       });
-      console.log('This is the userdata', userData);
+
       return await userData.save();
     } catch (err) {
       throw new DatabaseException(403, err);

@@ -1,8 +1,9 @@
 import type, { Application, Request, Response, NextFunction } from 'express';
 import { globalErrorMiddleware } from '../middleware/global.middleware';
+import workoutRouter from './workout.route';
 
 export const serverRoutes = (expressApplication: Application) => {
-  expressApplication.use('/api', []);
+  expressApplication.use('/api', [workoutRouter]);
 
   expressApplication.use(
     '*',

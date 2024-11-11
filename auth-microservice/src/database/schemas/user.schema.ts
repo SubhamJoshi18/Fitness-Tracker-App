@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { missingLogs } from '../../utils/missingLogs';
+import { Schema } from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   firstname: {
@@ -25,6 +26,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, missingLogs('Password')],
+  },
+
+  workoutDetails: {
+    type: Schema.Types.Mixed,
+    required: false,
   },
 });
 

@@ -2,12 +2,14 @@ import express, { Application } from 'express';
 import { getEnvValue } from './utils/getKey';
 import { serverStarter } from './server';
 import fitnessLogger from './libs/logger';
-
+import { connectToFitnessDB } from './database/connect';
 const app = express();
 const port = getEnvValue('PORT');
 
 async function startWorkoutServer() {
   try {
+    await connectToFitnessDB();
+    
     await serverStarter(app as Application);
 
     app
