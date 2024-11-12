@@ -10,4 +10,16 @@ workoutRouter.post(
   WorkoutController.createWorkout
 );
 
+workoutRouter.get(
+  '/workout',
+  verifyAuthToken as any,
+  WorkoutController.getWorkoutDetails
+);
+
+workoutRouter.patch(
+  '/workout/:workoutId',
+  verifyAuthToken as any,
+  WorkoutController.updateWorkoutDetails
+);
+
 export default workoutRouter;

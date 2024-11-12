@@ -19,6 +19,7 @@ export const verifyAuthToken = (
 ) => {
   const authToken = req.headers['authorization'] ?? req.headers.authorization;
 
+  console.log('This is the auth token', authToken);
   if (!authToken) {
     fitnessLogger.error(`Auth token is missing or it is not valid`);
     process.exit(1);
