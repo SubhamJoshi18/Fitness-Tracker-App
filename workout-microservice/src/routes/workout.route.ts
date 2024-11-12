@@ -22,4 +22,10 @@ workoutRouter.patch(
   WorkoutController.updateWorkoutDetails
 );
 
+workoutRouter.get(
+  '/workout/best',
+  verifyAuthToken as any,
+  WorkoutController.recommendBestWorkoutDetails
+);
+
 export default workoutRouter;

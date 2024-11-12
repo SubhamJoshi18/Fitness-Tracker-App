@@ -86,6 +86,28 @@ class WorkoutController {
       next(err);
     }
   }
+
+  async recommendBestWorkoutDetails(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const userPayload = req.user ?? null;
+
+      if (!userPayload) {
+        throw new ValidationException(403, `User Payload Does not Exists`);
+      }
+
+      const response = await WorkoutService.recommendBestWorkoutDetails(
+        userPayload as any
+      );
+
+      successResponse(res, 'Best Recommend Workout Details', 201, response);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new WorkoutController();

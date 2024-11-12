@@ -1,4 +1,4 @@
-import { queueConfig } from '../constants/queueConstant';
+import { queueConfig, recommendModelConfig } from '../constants/queueConstant';
 import { WorkoutBodyI } from '../controller/types';
 import { DatabaseException, ValidationException } from '../exceptions';
 import Producer from '../queues/RabbitmqProducer';
@@ -118,6 +118,19 @@ class WorkoutService extends WorkoutServiceAbs {
     );
 
     return updatedResult.modifiedCount > 0 ? true : false;
+  }
+
+  async recommendBestWorkoutDetails(userPayload: any) {
+    const recommedModelQueue = new Producer(
+      recommendModelConfig['queueName'],
+      recommendModelConfig['queue_exchange'],
+      recommendModelConfig['queue_rk']
+    );
+    const modelPayload = JSON.parse(JSON.stringify(userPayload));
+
+    await recommedModelQueue.sendToQueue(modelPayload);
+
+    
   }
 }
 
