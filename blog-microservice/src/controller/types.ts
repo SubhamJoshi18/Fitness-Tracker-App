@@ -17,3 +17,8 @@ export interface CreateBlogI {
   description: string;
   workoutType: workoutTypeEnum;
 }
+
+export interface UpdateBlogI {
+  title: string;
+  description: string;
+}

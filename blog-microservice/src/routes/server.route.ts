@@ -3,7 +3,7 @@ import blogRouter from './blog.route';
 import { globalErrorMiddleware } from '../middleware/global.middleware';
 
 export const serverRouter = (expressApplication: Application) => {
-  expressApplication.use('/api/blog', [blogRouter]);
+  expressApplication.use('/api', [blogRouter]);
 
   expressApplication.use('*', (req: Request, res: Response) => {
     res.status(404).json({

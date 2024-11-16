@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  auth_microservice:
+    build:
+      context: ./auth_microservice
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SECRET=tokensecret
+    networks:
+      - mynetwork
+
+  blog_microservice:
+    build:
+      context: ./blog_microservice
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - SECRET=tokensecret
+    networks:
+      - mynetwork
+
+  workout_microservice:
+    build:
+      context: ./workout_microservice
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3003
+      - SECRET=tokensecret
+    networks:
+      - mynetwork
+
+  model_microservice:
+    build:
+      context: ./model_microservice
+      dockerfile: Dockerfile
+    networks:
+      - mynetwork
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    external: true
+
+volumes:
+  mongo-data:
