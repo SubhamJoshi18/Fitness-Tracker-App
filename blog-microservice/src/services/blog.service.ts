@@ -61,7 +61,9 @@ class BlogService extends BlogServiceAbs {
       throw new ValidationException(404, 'No Blog Found For User');
     }
 
-    return userBlogs;
+    return userBlogs.filter(
+      (item: any) => item.blogStatus !== BlogStatus.PRIVATE
+    );
   }
 
   async getAllBlogs(): Promise<any> {

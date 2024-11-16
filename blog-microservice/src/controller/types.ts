@@ -22,3 +22,7 @@ export interface UpdateBlogI {
   title: string;
   description: string;
 }
+
+export interface CommentBodyI {
+  comment: string;
+}
