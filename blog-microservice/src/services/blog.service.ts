@@ -3,7 +3,6 @@ import { CreateBlogI, UpdateBlogI } from '../controller/types';
 import blogModel from '../database/blog.schema';
 import { DatabaseException, ValidationException } from '../exceptions';
 import { BlogStatus } from '../database/types';
-import { stat } from 'fs';
 
 abstract class BlogServiceAbs {
   abstract createBlog(
@@ -61,13 +60,11 @@ class BlogService extends BlogServiceAbs {
       throw new ValidationException(404, 'No Blog Found For User');
     }
 
-    return userBlogs.filter(
-      (item: any) => item.blogStatus !== BlogStatus.PRIVATE
-    );
+    return userBlogs;
   }
 
   async getAllBlogs(): Promise<any> {
-    const response = await blogModel.find({});
+    const response = await blogModel.find({}).populate('comments');
     if (!response) {
       throw new DatabaseException(404, 'No Blog Found');
     }

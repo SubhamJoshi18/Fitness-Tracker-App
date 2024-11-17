@@ -54,6 +54,27 @@ class CommentController {
       next(err);
     }
   };
+
+  deleteComment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userPayload = req.user ?? null;
+      const userId = await this.extractUserId(userPayload);
+      const commentId = req.params.commentId ?? null;
+
+      if (!userPayload) {
+        throw new DatabaseException(403, 'User payload is Empty');
+      }
+
+      const response = await CommentService.deleteCommnet(
+        commentId as string,
+        userId as string
+      );
+
+      successResponse(res, 'Comment Deleted Succcessfully', 201, response);
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default new CommentController();

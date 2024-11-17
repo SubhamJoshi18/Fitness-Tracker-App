@@ -69,6 +69,61 @@ class CommentService {
     }
     return blogs;
   }
+
+  async deleteCommnet(commentId: string, userId: string) {
+    const user = await mongoose.connection.collection('users').findOne({
+      _id: new mongoose.Types.ObjectId(userId),
+    });
+
+    if (!user) {
+      throw new DatabaseException(
+        403,
+        `User Does not Exist with the Following Id : ${userId}`
+      );
+    }
+
+    const existsComment = await commentModel.findOne({
+      _id: commentId,
+    });
+
+    const proxyCommentDocument = JSON.parse(JSON.stringify(existsComment));
+
+    if (
+      !proxyCommentDocument.hasOwnProperty('blog') ||
+      !proxyCommentDocument.hasOwnProperty('user')
+    ) {
+      throw new DatabaseException(
+        403,
+        'Comment Does not associated with any Blogs'
+      );
+    }
+
+    const blogId = proxyCommentDocument.blog;
+
+    const deletedResult = await commentModel.deleteOne({
+      _id: commentId,
+    });
+
+    const existsBlogDo = await blogModel.findOne({
+      _id: new mongoose.Types.ObjectId(blogId),
+    });
+
+    const isCommentInBlog = existsBlogDo.comments.includes(commentId as any);
+
+    if (isCommentInBlog) {
+      const newComment = existsBlogDo.comments.filter(
+        (comment: any) => comment._id !== commentId
+      );
+      existsBlogDo.comments.push(...newComment);
+
+      await existsBlogDo.save();
+
+      return deletedResult.deletedCount > 0
+        ? 'Deleted Successfully'
+        : 'Deleted Operation Failed';
+    }
+    return 'Not Deleted';
+  }
 }
 
 export default new CommentService();

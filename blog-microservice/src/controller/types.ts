@@ -26,3 +26,7 @@ export interface UpdateBlogI {
 export interface CommentBodyI {
   comment: string;
 }
+
+export interface ReviewBodyI {
+  rating: number;
+}

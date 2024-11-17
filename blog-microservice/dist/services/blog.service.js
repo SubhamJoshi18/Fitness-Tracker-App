@@ -49,7 +49,7 @@ class BlogService extends BlogServiceAbs {
         return userBlogs;
     }
     async getAllBlogs() {
-        const response = await blog_schema_1.default.find({});
+        const response = await blog_schema_1.default.find({}).populate('comments');
         if (!response) {
             throw new exceptions_1.DatabaseException(404, 'No Blog Found');
         }

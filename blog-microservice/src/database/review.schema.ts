@@ -7,6 +7,12 @@ const reviewSchema = new mongoose.Schema({
     enum: ReviewRatingEnum,
     default: 0,
   },
+
+  blog: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Blog',
+    required: false,
+  },
 });
 
 const reviewModel = mongoose.model('Review', reviewSchema);

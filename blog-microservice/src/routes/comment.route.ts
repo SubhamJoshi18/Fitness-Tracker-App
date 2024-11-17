@@ -16,4 +16,10 @@ commentRouter.get(
   CommentController.getCommentBlog
 );
 
+commentRouter.delete(
+  '/comment/:commentId',
+  verifyAuthToken as any,
+  CommentController.deleteComment
+);
+
 export default commentRouter;
