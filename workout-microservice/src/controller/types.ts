@@ -9,4 +9,10 @@ export interface WorkoutBodyI {
   PreferredWorkoutTime: Date;
 }
 
-
+export interface FoodRountineI {
+  weekDay: [
+    {
+      food_name: string;
+    }
+  ];
+}
